@@ -1,0 +1,880 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Skills Assessment</title>
+    <style>
+        :root {
+            --bg: #080611;
+            --panel: #110d1d;
+            --line: #342454;
+            --purple: #a970ff;
+            --text: #f4efff;
+            --muted: #b9abc9;
+            --red: #ff6b7a;
+            --green: #8dffb5;
+            --term-bg: #0d0914;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            color: var(--text);
+            font-family: Inter, Segoe UI, Arial, sans-serif;
+            background: radial-gradient(circle at 50% 3%, rgba(111,58,255,.18), transparent 24%), radial-gradient(circle at 12% 20%, rgba(169,112,255,.08), transparent 24%), linear-gradient(145deg, #080611 0%, #0a0718 52%, #07050f 100%);
+        }
+
+        .container {
+            width: min(1050px, 92%);
+            margin: auto;
+            padding: 34px 0 60px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .panel {
+            background: rgba(17, 13, 29, 0.95);
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            padding: 28px;
+            box-shadow: 0 0 35px rgba(0,0,0,.4);
+        }
+
+        label {
+            display: block;
+            margin: 14px 0 7px;
+            color: #c7ead4;
+            font-weight: 700;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            border: 1px solid var(--line);
+            background: #080512;
+            color: var(--text);
+            outline: none;
+            font-size: 16px;
+        }
+
+        .btn {
+            border: 0;
+            border-radius: 11px;
+            padding: 14px 20px;
+            background: var(--purple);
+            color: #021107;
+            font-weight: 900;
+            cursor: pointer;
+            font-size: 15px;
+            transition: .2s;
+            margin-top: 18px;
+            display: inline-block;
+        }
+
+            .btn:hover {
+                transform: translateY(-1px);
+                opacity: 0.95;
+            }
+
+            .btn.secondary {
+                background: #171126;
+                color: var(--text);
+                border: 1px solid var(--line);
+            }
+
+            .btn.skip {
+                background: rgba(255, 107, 122, 0.15);
+                color: var(--red);
+                border: 1px solid var(--red);
+            }
+
+        .error {
+            color: var(--red);
+            margin-top: 10px;
+            display: none;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .progress-wrap {
+            margin: 15px 0 25px;
+        }
+
+        .progress-top {
+            display: flex;
+            justify-content: space-between;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .progress {
+            height: 8px;
+            background: #171126;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+            .progress i {
+                display: block;
+                height: 100%;
+                background: var(--purple);
+                width: 0;
+                transition: width 0.3s ease;
+            }
+
+        .badge {
+            display: inline-block;
+            padding: 7px 11px;
+            border-radius: 999px;
+            border: 1px solid var(--line);
+            color: var(--purple);
+            background: rgba(169,112,255,.1);
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+
+        .question {
+            font-size: 17px;
+            line-height: 1.5;
+            margin: 12px 0 20px;
+            white-space: pre-wrap;
+            background: #080512;
+            padding: 16px;
+            border-radius: 10px;
+            border: 1px solid var(--line);
+        }
+
+        .option {
+            display: block;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            background: #140e24;
+            cursor: pointer;
+        }
+
+            .option:hover {
+                border-color: var(--purple);
+            }
+
+            .option input {
+                width: auto;
+                margin-right: 10px;
+                accent-color: var(--purple);
+            }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .stage-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-top: 20px;
+        }
+
+        .stage-card {
+            padding: 18px;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            background: #140e24;
+            cursor: pointer;
+            position: relative;
+        }
+
+            .stage-card.completed {
+                border-color: var(--green);
+                background: rgba(141, 255, 181, 0.05);
+            }
+
+            .stage-card strong {
+                display: block;
+                color: var(--purple);
+                margin-bottom: 7px;
+            }
+
+            .stage-card span {
+                color: var(--muted);
+                font-size: 14px;
+            }
+
+        .status-tag {
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 10px;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--line);
+        }
+
+        /* TUWAIQ HERO / LOGO */
+        .hero-logo {
+            width: 150px;
+            height: 125px;
+            margin: 0 auto 4px;
+            position: relative;
+            display: grid;
+            place-items: center;
+            isolation: isolate;
+        }
+
+            /* Soft white light rays behind the purple Tuwaiq mark.
+           The logo itself has a transparent background, so no white box appears. */
+            .hero-logo::before {
+                content: "";
+                position: absolute;
+                inset: 12px -35px 18px;
+                z-index: -2;
+                background: linear-gradient(148deg, transparent 34%, rgba(255,255,255,.12) 47%, rgba(255,255,255,.025) 54%, transparent 68%), linear-gradient(32deg, transparent 34%, rgba(255,255,255,.10) 47%, rgba(255,255,255,.02) 54%, transparent 68%);
+                filter: blur(8px);
+                opacity: .35;
+                pointer-events: none;
+            }
+
+            .hero-logo::after {
+                content: "";
+                position: absolute;
+                width: 86px;
+                height: 86px;
+                border-radius: 50%;
+                background: rgba(255,255,255,.035);
+                filter: blur(30px);
+                z-index: -3;
+                pointer-events: none;
+            }
+
+        .tuwaiq-logo {
+            width: 112px;
+            height: 112px;
+            object-fit: contain;
+            display: block;
+            filter: drop-shadow(0 0 6px rgba(169,112,255,.85)) drop-shadow(0 0 18px rgba(111,58,255,.45));
+            position: relative;
+            z-index: 2;
+        }
+
+        .english-brand {
+            font-size: 34px;
+            line-height: 1;
+            font-weight: 900;
+            letter-spacing: -.5px;
+            background: linear-gradient(90deg, #8d5cff, #b98cff, #7c43ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-top: 2px;
+        }
+
+        .cyber-brand {
+            margin-top: 8px;
+            font-size: 20px;
+            letter-spacing: 1.5px;
+            color: var(--text);
+            font-weight: 800;
+        }
+
+        .hero-subtitle {
+            margin: 12px 0 0;
+            color: var(--muted);
+            font-size: 15px;
+        }
+
+        /* TERMINAL STYLES */
+        .terminal-container {
+            background: var(--term-bg);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            overflow: hidden;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 15px 0;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+
+        .terminal-header {
+            background: #1a132b;
+            padding: 8px 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .term-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+            .term-btn.red {
+                background: #ff5f56;
+            }
+
+            .term-btn.yellow {
+                background: #ffbd2e;
+            }
+
+            .term-btn.green {
+                background: #27c93f;
+            }
+
+        .term-title {
+            color: var(--muted);
+            font-size: 12px;
+            margin-left: 10px;
+        }
+
+        .terminal-body {
+            padding: 15px;
+            min-height: 180px;
+            max-height: 260px;
+            overflow-y: auto;
+            color: #27c93f;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .terminal-output {
+            margin-bottom: 10px;
+            white-space: pre-wrap;
+        }
+
+        .terminal-input-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .terminal-prompt {
+            color: var(--purple);
+            font-weight: bold;
+        }
+
+        .terminal-input {
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 14px;
+            width: 100%;
+            outline: none;
+            padding: 0;
+        }
+
+        .terminal-answer-box {
+            background: rgba(169, 112, 255, 0.05);
+            border: 1px dashed var(--purple);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+            .terminal-answer-box label {
+                color: var(--purple);
+                margin-top: 0;
+                font-size: 14px;
+            }
+
+        @media(max-width:700px) {
+            .stage-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <div class="hero-logo">
+                <img class="tuwaiq-logo" src="data:image/png;base64,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" alt="Tuwaiq logo">
+            </div>
+            <div class="english-brand">Tuwaiq</div>
+            <div class="cyber-brand">Cyber Assessment</div>
+            <p class="hero-subtitle">Test your knowledge &nbsp;•&nbsp; Build your skills &nbsp;•&nbsp; Shape your future</p>
+        </header>
+
+        <!-- START PANEL -->
+        <section id="start" class="panel">
+            <span class="badge">BEGINNER &amp; INTERMEDIATE</span>
+            <h1>Cyber Security Assessment</h1>
+            <p style="color:var(--muted)">This assessment contains 36 questions: 12 Networking, 12 Operating Systems, and 12 Cybersecurity questions.</p>
+
+            <label for="name">Full Name</label>
+            <input id="name" type="text" placeholder="Enter your name">
+
+            <label for="major">Choose Your Major</label>
+            <select id="major">
+                <option value="">Select your major</option>
+                <option>Cybersecurity</option>
+                <option>Data Science</option>
+                <option>Law</option>
+                <option>Software Engineering</option>
+                <option>Computer Science</option>
+                <option>Computer Engineering</option>
+                <option>Artificial Intelligence</option>
+                <option>Information Technology</option>
+                <option>Physics</option>
+            </select>
+
+            <label for="sectionSelect">Choose Specific Section</label>
+            <select id="sectionSelect">
+                <option value="ALL">All Sections (Sequential)</option>
+                <option value="0">01 · Networking</option>
+                <option value="1">02 · Operating Systems</option>
+                <option value="2">03 · Cybersecurity</option>
+            </select>
+
+            <div style="margin-top:20px; font-weight:bold;">Or click a section directly to start:</div>
+
+            <div class="stage-grid">
+                <div class="stage-card" onclick="startTestWithStage(0)">
+                    <span class="status-tag" id="tag-0">Pending</span>
+                    <strong>01 · Networking</strong>
+                    <span>6 Theoretical + 6 Scenario Questions</span>
+                </div>
+
+                <div class="stage-card" onclick="startTestWithStage(1)">
+                    <span class="status-tag" id="tag-1">Pending</span>
+                    <strong>02 · Operating Systems</strong>
+                    <span>6 Theoretical + 6 Scenario Questions</span>
+                </div>
+
+                <div class="stage-card" onclick="startTestWithStage(2)">
+                    <span class="status-tag" id="tag-2">Pending</span>
+                    <strong>03 · Cybersecurity</strong>
+                    <span>6 Theoretical + 6 Scenario Questions</span>
+                </div>
+            </div>
+
+            <button class="btn" onclick="startTest()">Start Selected Assessment</button>
+            <div id="startError" class="error">Please enter your name and choose your major.</div>
+        </section>
+
+        <!-- QUIZ PANEL -->
+        <section id="quiz" class="panel hidden">
+            <div class="progress-wrap">
+                <div class="progress-top">
+                    <span id="stageLabel"></span>
+                    <span id="qCounter"></span>
+                </div>
+                <div class="progress"><i id="progressBar"></i></div>
+            </div>
+
+            <span class="badge" id="typeBadge"></span>
+            <div id="questionText" class="question"></div>
+
+            <!-- Standard Multiple Choice Container -->
+            <div id="options"></div>
+
+            <!-- Interactive terminal UI used by practical Linux questions. -->
+            <div id="terminalContainer" class="terminal-container hidden">
+                <div class="terminal-header">
+                    <span class="term-btn red"></span>
+                    <span class="term-btn yellow"></span>
+                    <span class="term-btn green"></span>
+                    <span class="term-title">bash - user@tuwaiq-cyber: ~</span>
+                </div>
+                <div class="terminal-body" id="termBody">
+                    <div class="terminal-output" id="termOutput"></div>
+                    <div class="terminal-input-row">
+                        <span class="terminal-prompt">user@tuwaiq:~$</span>
+                        <input type="text" id="termInput" class="terminal-input" placeholder="Type command and press Enter to execute..." autocomplete="off">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Answer Box for Terminal Output Result -->
+            <div id="answerBoxContainer" class="terminal-answer-box hidden">
+                <label id="ansBoxLabel" for="finalAnswerInput">Step 2: Enter the exact value/result obtained from Terminal Output:</label>
+                <input type="text" id="finalAnswerInput" placeholder="Type the answer from the output here...">
+            </div>
+
+            <div class="nav">
+                <button class="btn secondary" id="backBtn" onclick="previousQuestion()">Back</button>
+                <button class="btn skip hidden" id="skipBtn" onclick="skipTerminalQuestion()">Skip Task</button>
+                <button class="btn" id="nextBtn" onclick="nextQuestion()">Next</button>
+            </div>
+        </section>
+
+        <!-- RESULT PANEL -->
+        <section id="result" class="panel hidden">
+            <span class="badge">SECTION COMPLETE</span>
+            <h1>Section Assessment Finished!</h1>
+            <p style="color:var(--muted)">Your results have been automatically saved to the database.</p>
+
+            <div id="resultBox" style="padding: 20px; background: #140e24; border-radius: 12px; margin: 20px 0; border: 1px solid var(--line);"></div>
+
+            <div class="nav">
+                <button class="btn secondary" onclick="returnToDashboard()">Return to Main Menu</button>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        const SUPABASE_URL = "https://mmhrjaahdlymvucuyjam.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_sJA4yR3zfIcXdDq1__byKQ_pGPo961I";
+
+        const stages = [
+            {
+                name: "Networking",
+                questions: [
+                    { type: "Theoretical", level: "Easy", skill: "Network Devices", q: "Which device connects hosts in the same LAN and forwards frames using MAC addresses?", o: ["Router", "Switch", "Modem", "Firewall"], a: 1 },
+                    { type: "Theoretical", level: "Easy", skill: "Port Numbers", q: "Which port does HTTPS use by default?", o: ["80", "22", "443", "53"], a: 2 },
+                    { type: "Theoretical", level: "Easy", skill: "DHCP", q: "Which protocol automatically assigns IP addresses to devices?", o: ["DHCP", "DNS", "ARP", "FTP"], a: 0 },
+                    { type: "Theoretical", level: "Easy", skill: "IP Addressing", q: "What is the IP address 127.0.0.1 called?", o: ["Gateway", "Broadcast", "Public IP", "Loopback (localhost)"], a: 3 },
+                    { type: "Theoretical", level: "Medium", skill: "TCP", q: "What is the correct order of the TCP three-way handshake?", o: ["SYN, ACK, SYN-ACK", "SYN, SYN-ACK, ACK", "ACK, SYN, SYN-ACK", "SYN-ACK, SYN, ACK"], a: 1 },
+                    { type: "Theoretical", level: "Medium", skill: "OSI Model", q: "At which OSI layer does a router mainly operate?", o: ["Layer 3 (Network)", "Layer 2 (Data Link)", "Layer 1 (Physical)", "Layer 7 (Application)"], a: 0 },
+                    { type: "Scenario", level: "Easy", skill: "DNS Troubleshooting", q: "ping 8.8.8.8 works but ping google.com fails. What is the likely problem?", o: ["Network cable unplugged", "Gateway is off", "DNS resolution failure", "IP address conflict"], a: 2 },
+                    { type: "Scenario", level: "Easy", skill: "Windows Networking", q: "Which Windows command shows all network adapters and IP settings?", o: ["ipconfig", "tracert", "netstat", "nslookup"], a: 0 },
+                    { type: "Scenario", level: "Medium", skill: "DHCP Troubleshooting", q: "A workstation gets the address 169.254.10.4. What does this indicate?", o: ["Static IP applied correctly", "Internet connection is fine", "Subnet mask rejected", "The workstation could not reach a DHCP server"], a: 3 },
+                    { type: "Scenario", level: "Medium", skill: "Subnetting", q: "How many usable host addresses are in a /24 network (255.255.255.0)?", o: ["256", "254", "255", "128"], a: 1 },
+                    { type: "Scenario", level: "Medium", skill: "DNS Troubleshooting", q: "nslookup unknown-site.xyz returns \"Non-existent domain\". What does this mean?", o: ["The network cable is unplugged", "DNS could not resolve that name (domain doesn't exist or DNS issue)", "Port 443 is closed", "The subnet mask is wrong"], a: 1 },
+                    { type: "Scenario", level: "Medium", skill: "IP Conflicts", q: "Windows shows \"IP address conflict detected\". What is the cause?", o: ["DNS failure", "Gateway is down", "Two devices use the same IP address", "DHCP is working normally"], a: 2 }
+                ]
+            },
+            {
+                name: "Operating Systems",
+                questions: [
+                    { type: "Theoretical", level: "Easy", skill: "RAM", q: "What is the main role of RAM?", o: ["Permanent file storage", "Temporary working memory for running programs", "Connecting to the network", "Cooling the CPU"], a: 1 },
+                    { type: "Terminal", level: "Easy", skill: "Linux Terminal", q: "Use the Terminal: Which command prints the current working directory?", isTerminal: true, validCmds: ["pwd"], outputSuccess: "/home/student", expectedOutputAnswers: ["/home/student", "current directory", "working directory"] },
+                    { type: "Theoretical", level: "Easy", skill: "Linux Users", q: "What is the \"root\" user in Linux?", o: ["The superuser account with full privileges", "A guest account", "A folder", "A network protocol"], a: 0 },
+                    { type: "Terminal", level: "Easy", skill: "Linux Filesystem", q: "Use the Terminal: Which command lists files, including hidden files?", isTerminal: true, validCmds: ["ls -a", "ls --all"], outputSuccess: ".  ..  .bashrc  .profile  Documents  Downloads", expectedOutputAnswers: ["hidden files", "all files including hidden files", "ls -a"] },
+                    { type: "Theoretical", level: "Medium", skill: "Processes and Threads", q: "What is the difference between a process and a thread?", o: ["A thread is a file, a process is a folder", "A process has its own memory; threads share the memory of their parent process", "Threads run on disks, processes run on RAM", "They are identical"], a: 1 },
+                    { type: "Theoretical", level: "Medium", skill: "Virtual Memory", q: "What is the purpose of swap / virtual memory?", o: ["Store permanent backups", "Encrypt boot files", "Extend RAM capacity using disk space", "Increase CPU speed"], a: 2 },
+                    { type: "Terminal", level: "Easy", skill: "Linux Permissions", q: "Use the Terminal: You need to give the owner read/write/execute permission and give the group and others read/execute permission. Which command should you run?", isTerminal: true, validCmds: ["chmod 755 script.sh"], outputSuccess: "Permissions set: owner=rwx, group=r-x, others=r-x", expectedOutputAnswers: ["755", "rwx r-x r-x", "owner rwx group r-x others r-x"] },
+                    { type: "Terminal", level: "Medium", skill: "Log Analysis", q: "Use the Terminal: Which command searches the authentication log for failed password attempts?", isTerminal: true, validCmds: ["grep \"Failed password\" /var/log/auth.log", "grep 'Failed password' /var/log/auth.log"], outputSuccess: "3 matching lines found: Failed password ...", expectedOutputAnswers: ["failed password", "failed login attempts", "3 failed login attempts"] },
+                    { type: "Terminal", level: "Medium", skill: "Linux Process Inspection", q: "Use the Terminal: Which command shows running processes in a live-updating view so you can spot a process using very high CPU?", isTerminal: true, validCmds: ["top"], outputSuccess: "PID  COMMAND   %CPU\n4321  xmrig     98.0", expectedOutputAnswers: ["top", "running processes", "processes and cpu usage"] },
+                    { type: "Scenario", level: "Medium", skill: "Process Management", q: "What does kill -9 4321 do?", o: ["Force-terminates the process with PID 4321", "Restarts process 4321", "Pauses process 4321", "Shows process 4321 info"], a: 0 },
+                    { type: "Scenario", level: "Medium", skill: "Threat Detection", q: "top shows a process named xmrig using 98% CPU on a web server. What is the most likely explanation?", o: ["Normal backup", "System update", "DNS lookup", "A cryptominer, possibly installed by an attacker"], a: 3 },
+                    { type: "Scenario", level: "Medium", skill: "Linux Permissions", q: "ls -l shows -rw-r--r-- 1 root root 120 notes.txt . What can a normal user (not the owner) do with it?", o: ["Read and write", "Execute", "Read only", "Nothing"], a: 2 }
+                ]
+            },
+            {
+                name: "Cybersecurity",
+                questions: [
+                    { type: "Theoretical", level: "Easy", skill: "CIA Triad", q: "What are the three pillars of the CIA Triad?", o: ["Confidentiality, Integrity, Availability", "Control, Inspection, Authentication", "Cyber, Intelligence, Authorization", "Central, Internal, Access"], a: 0 },
+                    { type: "Theoretical", level: "Easy", skill: "Phishing", q: "What is phishing?", o: ["Physical intrusion into a server room", "Flooding ports with packets", "Deceptive messages that trick users into revealing sensitive data", "Encrypting files for ransom"], a: 2 },
+                    { type: "Theoretical", level: "Easy", skill: "Malware", q: "Which malware encrypts your files and demands payment?", o: ["Spyware", "Adware", "Worm", "Ransomware"], a: 3 },
+                    { type: "Theoretical", level: "Easy", skill: "Authentication", q: "What defines Multi-Factor Authentication (MFA)?", o: ["Using long passwords", "Requiring two or more different verification factors", "Changing passwords every 30 days", "Logging in on two devices"], a: 1 },
+                    { type: "Theoretical", level: "Medium", skill: "Cryptography", q: "What is the difference between hashing and encryption?", o: ["Both are reversible with a key", "Hashing needs a public key", "Hashing is one-way; encryption can be reversed with a key", "They are the same"], a: 2 },
+                    { type: "Theoretical", level: "Medium", skill: "Least Privilege", q: "What does the principle of least privilege mean?", o: ["Users get only the minimum access they need", "Everyone gets admin rights", "Passwords expire often", "Data is backed up daily"], a: 0 },
+                    { type: "Scenario", level: "Easy", skill: "Social Engineering", q: "Someone calls pretending to be \"IT support\" and asks for your password. What is this attack?", o: ["SQL injection", "DDoS", "Brute-force", "Social engineering"], a: 3 },
+                    { type: "Scenario", level: "Easy", skill: "Malicious Files", q: "You receive a file named invoice.pdf.exe. What is the problem?", o: ["It is a normal PDF", "It is an executable disguised as a PDF", "It is a compressed file", "It is a safe image"], a: 1 },
+                    { type: "Scenario", level: "Medium", skill: "Brute Force", q: "Server logs show 500 failed SSH login attempts in 10 seconds for the account root. What attack is this?", o: ["SQL Injection", "Phishing", "Brute-force attack", "Man-in-the-Middle"], a: 2 },
+                    { type: "Scenario", level: "Medium", skill: "SQL Injection", q: "Entering admin' OR '1'='1 into a login form logs you in without a password. What vulnerability is this?", o: ["SQL Injection", "Path Traversal", "CSRF", "Buffer Overflow"], a: 0 },
+                    { type: "Scenario", level: "Medium", skill: "Firewall", q: "Which command blocks all incoming traffic from the IP 198.51.100.44 using UFW?", o: ["ufw allow 198.51.100.44", "ufw deny from 198.51.100.44", "ufw enable 198.51.100.44", "ping -block 198.51.100.44"], a: 1 },
+                    { type: "Scenario", level: "Medium", skill: "Wireshark", q: "In Wireshark you can read username=ali&password=1234 inside an HTTP POST request. Why is it visible?", o: ["Wireshark breaks encryption", "Passwords are always hashed", "This is normal DNS traffic", "The site uses HTTP instead of HTTPS, so data travels in cleartext"], a: 3 }
+                ]
+            }
+        ];
+        let currentStage = 0;
+        let currentQuestion = 0;
+        let answers = stages.map(s => Array(s.questions.length).fill(null));
+        let studentId = null;
+        let singleSectionMode = false;
+        let completedSections = [false, false, false];
+        let sectionResults = [null, null, null];
+
+        async function supabaseRequest(table, method, body = null) {
+            const url = `${SUPABASE_URL}/rest/v1/${table}`;
+            const options = {
+                method: method,
+                headers: {
+                    "apikey": SUPABASE_KEY,
+                    "Authorization": `Bearer ${SUPABASE_KEY}`,
+                    "Content-Type": "application/json",
+                    "Prefer": "return=representation"
+                }
+            };
+            if (body) options.body = JSON.stringify(body);
+            try {
+                const res = await fetch(url, options);
+                return res.ok ? await res.json() : null;
+            } catch (e) { return null; }
+        }
+
+        function startTestWithStage(stageIdx) {
+            document.getElementById("sectionSelect").value = stageIdx;
+            startTest();
+        }
+
+        async function startTest() {
+            const name = document.getElementById("name").value.trim();
+            const major = document.getElementById("major").value;
+            const selStage = document.getElementById("sectionSelect").value;
+
+            if (!name || !major) {
+                document.getElementById("startError").style.display = "block";
+                return;
+            }
+            document.getElementById("startError").style.display = "none";
+
+            if (!studentId) {
+                const res = await supabaseRequest("cyber_students", "POST", { name, major });
+                if (res && res[0]) studentId = res[0].id;
+            }
+
+            if (selStage === "ALL") {
+                singleSectionMode = false;
+                currentStage = 0;
+            } else {
+                singleSectionMode = true;
+                currentStage = parseInt(selStage);
+            }
+
+            currentQuestion = 0;
+            answers[currentStage] = Array(stages[currentStage].questions.length).fill(null);
+            completedSections[currentStage] = false;
+            sectionResults[currentStage] = null;
+            updateSectionStatus(currentStage);
+            document.getElementById("start").classList.add("hidden");
+            document.getElementById("quiz").classList.remove("hidden");
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const stage = stages[currentStage];
+            const item = stage.questions[currentQuestion];
+
+            document.getElementById("stageLabel").textContent = `Section: ${stage.name}`;
+            document.getElementById("qCounter").textContent = `Question ${currentQuestion + 1} / ${stage.questions.length}`;
+            document.getElementById("progressBar").style.width = `${((currentQuestion + 1) / stage.questions.length) * 100}%`;
+            document.getElementById("typeBadge").textContent = `${item.type} · Level: ${item.level} · Skill: ${item.skill}`;
+            document.getElementById("questionText").textContent = item.q;
+
+            const optionsBox = document.getElementById("options");
+            const termBox = document.getElementById("terminalContainer");
+            const ansBox = document.getElementById("answerBoxContainer");
+            const skipBtn = document.getElementById("skipBtn");
+
+            optionsBox.innerHTML = "";
+
+            if (item.isTerminal) {
+                optionsBox.classList.add("hidden");
+                termBox.classList.remove("hidden");
+                ansBox.classList.remove("hidden");
+                skipBtn.classList.remove("hidden");
+
+                document.getElementById("ansBoxLabel").textContent = item.ansPrompt || "Write the answer generated in Terminal Output:";
+                document.getElementById("finalAnswerInput").value = "";
+
+                setupTerminal(item);
+            } else {
+                optionsBox.classList.remove("hidden");
+                termBox.classList.add("hidden");
+                ansBox.classList.add("hidden");
+                skipBtn.classList.add("hidden");
+
+                item.o.forEach((opt, i) => {
+                    const label = document.createElement("label");
+                    label.className = "option";
+                    label.innerHTML = `<input type="radio" name="ans" value="${i}" ${answers[currentStage][currentQuestion] === i ? "checked" : ""}> ${opt}`;
+                    label.querySelector("input").addEventListener("change", e => {
+                        answers[currentStage][currentQuestion] = Number(e.target.value);
+                    });
+                    optionsBox.appendChild(label);
+                });
+            }
+
+            document.getElementById("backBtn").disabled = (currentQuestion === 0);
+            document.getElementById("nextBtn").textContent = (currentQuestion === stage.questions.length - 1) ? "Finish Section" : "Next";
+        }
+
+        function setupTerminal(item) {
+            const termInput = document.getElementById("termInput");
+            const termOutput = document.getElementById("termOutput");
+
+            termInput.value = "";
+            termOutput.innerHTML = "Step 1: Type the required Linux command below and press Enter.\nOutput will be displayed here.\n";
+
+            termInput.onkeydown = function (e) {
+                if (e.key === 'Enter') {
+                    handleTerminalCommand(item);
+                }
+            };
+        }
+
+        function handleTerminalCommand(item) {
+            const termInput = document.getElementById("termInput");
+            const termOutput = document.getElementById("termOutput");
+            const cmd = termInput.value.trim();
+
+            if (!cmd) return;
+
+            const isValid = item.validCmds.some(valid => valid.toLowerCase() === cmd.toLowerCase());
+
+            if (isValid) {
+                termOutput.innerHTML += `\n<span style="color:var(--purple)">user@tuwaiq:~$ ${cmd}</span>\n<span style="color:var(--green)">${item.outputSuccess}</span>\n\n[System Output Received! Now write the answer in Step 2 box below]`;
+            } else {
+                termOutput.innerHTML += `\n<span style="color:var(--purple)">user@tuwaiq:~$ ${cmd}</span>\n<span style="color:var(--red)">bash: ${cmd}: command not found or wrong syntax</span>\n[Tip] Try again with correct Linux syntax or click 'Skip Task'.`;
+            }
+
+            termInput.value = "";
+            termOutput.scrollTop = termOutput.scrollHeight;
+        }
+
+        function evaluateTerminalAnswer(item) {
+            const userInput = document.getElementById("finalAnswerInput").value.trim().toLowerCase();
+            if (!userInput) return false;
+
+            return item.expectedOutputAnswers.some(ans => ans.toLowerCase() === userInput);
+        }
+
+        function skipTerminalQuestion() {
+            answers[currentStage][currentQuestion] = false;
+            nextQuestion();
+        }
+
+        async function nextQuestion() {
+            const item = stages[currentStage].questions[currentQuestion];
+
+            if (!item.isTerminal && answers[currentStage][currentQuestion] === null) {
+                alert("Please select an answer first.");
+                return;
+            }
+
+            if (item.isTerminal) {
+                const isCorrect = evaluateTerminalAnswer(item);
+                answers[currentStage][currentQuestion] = isCorrect;
+            }
+
+            if (currentQuestion < stages[currentStage].questions.length - 1) {
+                currentQuestion++;
+                renderQuestion();
+                return;
+            }
+
+            const saved = await saveCurrentStageResult();
+            if (!saved) return;
+
+            if (!singleSectionMode && currentStage < stages.length - 1) {
+                currentStage++;
+                currentQuestion = 0;
+                renderQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                renderQuestion();
+            }
+        }
+
+        async function saveCurrentStageResult() {
+            const stage = stages[currentStage];
+            const ans = answers[currentStage];
+            let correct = 0;
+
+            ans.forEach((a, i) => {
+                const q = stage.questions[i];
+                if (q.isTerminal) {
+                    if (a === true) correct++;
+                } else {
+                    if (a === q.a) correct++;
+                }
+            });
+
+            const result = {
+                section: stage.name,
+                score: correct,
+                total_questions: stage.questions.length,
+                correct_answers: correct,
+                wrong_answers: stage.questions.length - correct,
+                percentage: Math.round((correct / stage.questions.length) * 100)
+            };
+
+            // Save only once per completed section in this session.
+            if (studentId && !completedSections[currentStage]) {
+                const payload = { student_id: studentId, ...result };
+                const saved = await supabaseRequest("cyber_results", "POST", payload);
+                if (!saved) {
+                    alert("The result could not be saved to the database. Please try again.");
+                    return false;
+                }
+            }
+
+            sectionResults[currentStage] = result;
+            completedSections[currentStage] = true;
+            updateSectionStatus(currentStage);
+            return true;
+        }
+
+        function updateSectionStatus(stageIndex) {
+            const tag = document.getElementById(`tag-${stageIndex}`);
+            const card = tag ? tag.parentElement : null;
+            if (!tag || !card) return;
+
+            if (completedSections[stageIndex]) {
+                tag.textContent = "✓ Completed";
+                tag.style.background = "#28a745";
+                card.classList.add("completed");
+            } else {
+                tag.textContent = "Pending";
+                tag.style.background = "var(--line)";
+                card.classList.remove("completed");
+            }
+        }
+
+        function showResults() {
+            document.getElementById("quiz").classList.add("hidden");
+            document.getElementById("result").classList.remove("hidden");
+
+            const stage = stages[currentStage];
+            const result = sectionResults[currentStage];
+            const correct = result ? result.correct_answers : 0;
+            const percent = result ? result.percentage : 0;
+
+            document.getElementById("resultBox").innerHTML = `
+                        <h2>Section: ${stage.name}</h2>
+                        <p style="font-size:32px; font-weight:bold; color:var(--purple); margin:10px 0;">Score: ${correct} / ${stage.questions.length} (${percent}%)</p>
+                        <p>Status: <span style="color:var(--green)">✓ Result saved to database</span></p>
+                        <p style="color:var(--muted); margin-top:10px;">You can return to the main menu and the ✓ Completed status will remain on this section.</p>
+                    `;
+        }
+
+        async function returnToDashboard() {
+            // Safety check: if a result is shown, make sure it is saved before leaving the result page.
+            if (sectionResults[currentStage] && !completedSections[currentStage]) {
+                const saved = await saveCurrentStageResult();
+                if (!saved) return;
+            }
+
+            document.getElementById("result").classList.add("hidden");
+            document.getElementById("start").classList.remove("hidden");
+            document.getElementById("quiz").classList.add("hidden");
+            currentQuestion = 0;
+
+            // Keep the student and completed-section status so the user can continue with another section.
+            document.getElementById("name").value = document.getElementById("name").value;
+            document.getElementById("major").value = document.getElementById("major").value;
+            document.getElementById("sectionSelect").value = "ALL";
+
+            completedSections.forEach((_, i) => updateSectionStatus(i));
+        }
+
+    </script>
+</body>
+</html>
